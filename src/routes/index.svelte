@@ -1,12 +1,39 @@
 <script>
+	import { slide } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
+
+	let font_size = 16 * 4;
+	function getWidth (count) {
+		var width  = font_size * count * .8;
+		var playArea = window.innerWidth - width;
+		return (playArea * Math.random()) - playArea/2;
+	}
 	const menu = [
-		"Mercado",
-		"Terbregsehof",
-		"Postzegel Penthouse",
-		"Republica",
-		"Schelfhorst",
-		"De Har"
-	]
+		{
+			name: "Mercado"
+		},
+		{
+			name: "Terbregsehof"
+		},
+		{
+			name: "Postzegel Penthouse"
+		},
+		{
+			name: "Republica"
+		},
+		{
+			name: "Schelfhorst"
+		},
+		{
+			name: "De Har"
+		}
+	];
+	for ( let i in menu ) {
+		var item = menu[i];
+		menu[i].width = getWidth(item['name'].length);
+	}
+
+
 </script>
 
 <svelte:head>
@@ -16,9 +43,14 @@
 <h1>Menu</h1>
 
 <ul>
-	{#each menu as item}
+	{#each menu as item, index}
 		<li>
-			<a href="{item}">{item}</a>
+			<a
+				in:slide="{{delay: 0, duration: 300, easing: quintOut }}"
+				href="{item.name}"
+				style="transform: translateX({item.width}px)">
+					{item.name}
+			</a>
 		</li>
 	{/each}
 </ul>
@@ -33,17 +65,9 @@
 	ul a {
 		text-decoration: none;
 		position: relative;
-		transform: translateX(-10%);
+		display: inline-block;
 	}
-	ul a:before {
-		content: "";
-		position: absolute;
-		bottom: .2em;
-		left: -100vw;
-		height: 2px;
-		width: 98vw;
-		background: #000;
-	}
+	ul a:before,
 	ul a:after {
 		content: "";
 		position: absolute;
@@ -52,5 +76,16 @@
 		height: 2px;
 		width: 98vw;
 		background: #000;
+	}
+	ul a:before {
+		left: -100vw;
+		width: 98vw;
+	}
+	ul a:after {
+		right: -100vw;
+		width: 98vw;
+	}
+	li {
+		overflow: hidden;
 	}
 </style>
