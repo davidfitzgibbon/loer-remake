@@ -2,6 +2,13 @@
 	export let segment;
 </script>
 
+<nav>
+	<ul>
+		<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>Menu</a></li>
+		<li><a aria-current='{segment === "office" ? "page" : undefined}' href='office'>Office</a></li>
+	</ul>
+</nav>
+
 <style>
 	nav {
 		border-bottom: 1px solid rgba(255,62,0,0.1);
@@ -45,12 +52,6 @@
 		text-decoration: none;
 		padding: 1em 0.5em;
 		display: block;
+		cursor: pointer;
 	}
 </style>
-
-<nav>
-	<ul>
-		<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>Menu</a></li>
-		<li><a aria-current='{segment === "office" ? "page" : undefined}' href='office'>Office</a></li>
-	</ul>
-</nav>

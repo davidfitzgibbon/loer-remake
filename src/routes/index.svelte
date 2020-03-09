@@ -1,5 +1,5 @@
 <script>
-	import { slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
 	let font_size = 16 * 4;
@@ -32,28 +32,29 @@
 		var item = menu[i];
 		menu[i].width = getWidth(item['name'].length);
 	}
-
-
 </script>
 
 <svelte:head>
 	<title>Loer menu</title>
 </svelte:head>
 
-<h1>Menu</h1>
-
-<ul>
-	{#each menu as item, index}
-		<li>
-			<a
-				in:slide="{{delay: 0, duration: 300, easing: quintOut }}"
-				href="{item.name}"
-				style="transform: translateX({item.width}px)">
-					{item.name}
-			</a>
-		</li>
-	{/each}
-</ul>
+<div class="content">
+	<ul>
+		{#each menu as item, index}
+			<li in:fly="{{
+				delay: 50*index + 50,
+				duration: 400,
+				y: 100,
+				easing: quintOut
+				}}">
+				<a href="/office"
+					style="transform: translateX({item.width}px); animation-delay:{50*index + 50}ms;" >
+						{item.name}
+				</a>
+			</li>
+		{/each}
+	</ul>
+</div>
 
 <style>
 	ul {
@@ -66,26 +67,25 @@
 		text-decoration: none;
 		position: relative;
 		display: inline-block;
+		white-space: nowrap;
 	}
 	ul a:before,
 	ul a:after {
 		content: "";
 		position: absolute;
 		bottom: .2em;
-		right: -100vw;
 		height: 2px;
 		width: 98vw;
 		background: #000;
+		animation: width-in 1s backwards;
+		animation-delay: inherit;
 	}
-	ul a:before {
-		left: -100vw;
-		width: 98vw;
-	}
-	ul a:after {
-		right: -100vw;
-		width: 98vw;
-	}
-	li {
-		overflow: hidden;
-	}
+	ul a:before { left: 100%; }
+	ul a:after { right: 100%; }
+	li { overflow: hidden; }
+	@keyframes width-in {
+		0% {
+			width: 0;
+		}
+	}	
 </style>

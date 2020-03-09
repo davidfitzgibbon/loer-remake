@@ -9,9 +9,14 @@
 		position: relative;
 		max-width: 56em;
 		background-color: white;
-		padding: 2em;
 		margin: 0 auto;
 		box-sizing: border-box;
+	}
+	:global(.content) {
+		padding: 2em;
+	}
+	:global(img) {
+		max-width: 100%;
 	}
 </style>
 
